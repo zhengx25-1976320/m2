@@ -1,27 +1,45 @@
-
 /*
     The start function will be called to start your node.
     It will take a callback as an argument.
     After your node has booted, you should call the callback.
 */
-
-
-const start = function(started) {
+const http = require("http");
+const url = require("url");
+const local = require("../local/local");
+const serialization = require("../util/serialization");
+const start = function (started) {
   const server = http.createServer((req, res) => {
     /* Your server will be listening for PUT requests. */
 
     // Write some code...
-
+    if (req.method !== "PUT") {
+      // raise an error
+    }
 
     /*
       The path of the http request will determine the service to be used.
       The url will have the form: http://node_ip:node_port/service/method
     */
 
-
     // Write some code...
+    const parsedUrl = url.parse(req.url);
+    const pathname = parsedUrl.pathname;
+    const pathParts = pathname.split("/");
+    // Assuming the URL format is /service/method
+    const serviceName = pathParts[1];
+    const method = pathParts[2];
 
-
+    const node_ip = req.headers.host.split(":")[0];
+    const node_port = req.headers.host.split(":")[1];
+    console.log(
+      //   parsedUrl,
+      //   pathname,
+      //   pathParts,
+      serviceName,
+      method,
+      node_ip,
+      node_port
+    );
     /*
 
       A common pattern in handling HTTP requests in Node.js is to have a
@@ -38,28 +56,37 @@ const start = function(started) {
   */
 
     // Write some code...
+    let data = "";
+    req.on("data", (chunk) => {
+      data = data + chunk;
+    });
 
+    req.on("end", () => {
+      data = JSON.parse(data);
+      const serviceCallback = (e, v) => {
+        res.end(serialization.serialize([e, v]));
+      };
+      local.routes.get(serviceName, (error, service) => {
+        // error catching
+        if (error) {
+          console.error(error);
+        }
 
-      /* Here, you can handle the service requests. */
+        service[method](...serialization.deserialize(data), serviceCallback);
 
-      // Write some code...
+        // do something with service
+      });
+    });
+    /* Here, you can handle the service requests. */
 
+    // Write some code...
 
-        /*
+    /*
       Here, we provide a default callback which will be passed to services.
       It will be called by the service with the result of it's call
       then it will serialize the result and send it back to the caller.
         */
-        const serviceCallback = (e, v) => {
-          res.end(serialization.serialize([e, v]));
-        };
-
-        // Write some code...
-
   });
-
-
-  // Write some code...
 
   /*
     Your server will be listening on the port and ip specified in the config
