@@ -3,16 +3,16 @@
     It will take a callback as an argument.
     After your node has booted, you should call the callback.
 */
-const http = require("http");
-const url = require("url");
-const local = require("../local/local");
-const serialization = require("../util/serialization");
-const start = function (started) {
+const http = require('http');
+const url = require('url');
+const local = require('../local/local');
+const serialization = require('../util/serialization');
+const start = function(started) {
   const server = http.createServer((req, res) => {
     /* Your server will be listening for PUT requests. */
 
     // Write some code...
-    if (req.method !== "PUT") {
+    if (req.method !== 'PUT') {
       // raise an error
     }
 
@@ -24,22 +24,22 @@ const start = function (started) {
     // Write some code...
     const parsedUrl = url.parse(req.url);
     const pathname = parsedUrl.pathname;
-    const pathParts = pathname.split("/");
+    const pathParts = pathname.split('/');
     // Assuming the URL format is /service/method
     const serviceName = pathParts[1];
     const method = pathParts[2];
 
-    const node_ip = req.headers.host.split(":")[0];
-    const node_port = req.headers.host.split(":")[1];
-    console.log(
-      //   parsedUrl,
-      //   pathname,
-      //   pathParts,
-      serviceName,
-      method,
-      node_ip,
-      node_port
-    );
+    // const nodeIp = req.headers.host.split(':')[0];
+    // const nodePort = req.headers.host.split(':')[1];
+    // console.log(
+    //     //   parsedUrl,
+    //     //   pathname,
+    //     //   pathParts,
+    //     serviceName,
+    //     method,
+    //     node_ip,
+    //     node_port,
+    // );
     /*
 
       A common pattern in handling HTTP requests in Node.js is to have a
@@ -56,12 +56,12 @@ const start = function (started) {
   */
 
     // Write some code...
-    let data = "";
-    req.on("data", (chunk) => {
+    let data = '';
+    req.on('data', (chunk) => {
       data = data + chunk;
     });
 
-    req.on("end", () => {
+    req.on('end', () => {
       data = JSON.parse(data);
       const serviceCallback = (e, v) => {
         res.end(serialization.serialize([e, v]));

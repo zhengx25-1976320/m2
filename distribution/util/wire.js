@@ -1,6 +1,6 @@
 global.toLocal = new Map();
-const id = require("../util/id");
-const local = require("../local/local");
+const id = require('../util/id');
+const local = require('../local/local');
 function createRPC(func) {
   global.toLocal.set(id.getID(func), func);
   let idd = id.getID(func);
@@ -10,7 +10,7 @@ function createRPC(func) {
     let remote = {
       node: global.config,
       service: idd,
-      method: "call",
+      method: 'call',
     };
     local.comm.send(args, remote, cb);
   }
@@ -27,8 +27,8 @@ function createRPC(func) {
     to the callback.
 */
 function toAsync(func) {
-  return function (...args) {
-    const callback = args.pop() || function () {};
+  return function(...args) {
+    const callback = args.pop() || function() {};
     try {
       const result = func(...args);
       callback(null, result);

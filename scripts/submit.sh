@@ -1,9 +1,9 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 
 cd "$(dirname "$0")/.." || exit
 
 
-log() 
+log()
 {
     if [ "$2" = "-n" ]; then
 	printf "[submit] %s" "$1"
@@ -31,7 +31,7 @@ log "creating submission..."
 mkdir -p "$TARGET_FOLDER"
 
 git ls-files | while IFS='' read -r file
-do 
+do
     mkdir -p $TARGET_FOLDER/"$(dirname "$file")"
     cp "$file" $TARGET_FOLDER/"$(dirname "$file")"
 done

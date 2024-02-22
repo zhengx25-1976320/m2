@@ -14,7 +14,7 @@
   },
   "scripts": {
     "test": "jest",
-    "lint": "eslint --ignore-path .gitignore .",
+    "lint": "eslint --ignore-path .gitignore . --fix",
     "prepare": "husky"
   },
   "husky": {
