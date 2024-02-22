@@ -16,7 +16,7 @@ My implementation comprises `3` software components, totaling `400` lines of cod
 
 _Correctness_: I wrote `3` tests; these tests take `17.2s` to execute.
 
-_Performance_: Evaluating RPC performance using [high-resolution timers](https://nodejs.org/api/perf_hooks.html) by sending 1000 service requests in a tght loop results in an average throughput of `0.87` requests per second and an average latency of `0.43` ms.
+_Performance_: Evaluating RPC performance using [high-resolution timers](https://nodejs.org/api/perf_hooks.html) by sending 1000 service requests in a tght loop results in an average throughput of `806.75` requests per second and an average latency of `1.32` ms.
 
 ## Key Feature
 
